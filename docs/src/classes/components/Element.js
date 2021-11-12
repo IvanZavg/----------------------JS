@@ -12,6 +12,10 @@ export default class Element {
   }
 
   setOptions(options) {
+    if (options?.tag) {
+      this.#elem = document.createElement(options.tag)
+      this.#elem.id = options.id
+    }
     if (options?.classes?.length) this.setClasses(options.classes)
     if (options?.content) this.setContent(options.content)
     if (options?.text) this.setTextContent(options.text)

@@ -31,6 +31,8 @@ export class SetingMenu {
 
   #renederSettings(elementType) {
     this.#settings = []
+    this.#options = {}
+
     const availableOptions = SETTINGS_MODEL[elementType]
     if (!availableOptions) {
       this.#setingContainer.textContent = 'Для данного компонента нет дополнительных опций'
