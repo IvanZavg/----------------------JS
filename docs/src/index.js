@@ -16,10 +16,10 @@ const content = [
   },
 ]
 const site = new Site('#site')
-site.runData(content)
+//site.runData(content)
 
 // site.addComponent('row')
-site.testSetActiveComponent(0)
+//site.testSetActiveComponent(0)
 // site.addComponent('textHeader', { text: 'Title1' })
 // site.addComponent('paragraph', { text: 'vahahahah' })
 // site.testLogContent()

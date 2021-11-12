@@ -24,6 +24,7 @@ export class SetingMenu {
     this.#btnApply.addEventListener('click', this.addNewComponent)
   }
 
+  //Вызываем из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент
   showSettingsNewElement() {
     const elementType = this.#newCompoenent.component.getType()
     this.#renederSettings(elementType)
@@ -32,6 +33,7 @@ export class SetingMenu {
   #renederSettings(elementType) {
     this.#settings = []
     this.#options = {}
+    this.#clearSetingContainer()
 
     const availableOptions = SETTINGS_MODEL[elementType]
     if (!availableOptions) {
@@ -39,7 +41,6 @@ export class SetingMenu {
       return
     }
 
-    this.#setingContainer.innerHTML = ''
     availableOptions.forEach((option) => {
       const settingBlock = new option.settingBlock()
       this.#settings.push(settingBlock)
@@ -50,6 +51,7 @@ export class SetingMenu {
   addNewComponent() {
     if (!this.#settings.length) {
       this.#addComponent()
+      this.#clearSetingContainer()
       return
     } else {
       this.#settings.forEach((setting) => {
@@ -57,6 +59,12 @@ export class SetingMenu {
       })
       this.#newCompoenent.component.setOptions(this.#options)
       this.#addComponent()
+      this.#clearSetingContainer()
     }
+  }
+
+  #clearSetingContainer() {
+    this.#setingContainer.textContent = ''
+    this.#setingContainer.innerHTML = ''
   }
 }

@@ -6,7 +6,16 @@
 
 .content * {
   min-height: 10px;
-  margin: 5px;
+  margin: 2px;
+  box-sizing: border-box;
+}
+
+.content .row {
+  min-height: 30px;
+}
+
+.content .col {
+  min-height: 30px;
 }
 
 .content *:hover {

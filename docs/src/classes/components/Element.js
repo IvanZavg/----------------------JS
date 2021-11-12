@@ -1,9 +1,12 @@
 export default class Element {
   #elem
+  #id
 
   constructor(tag, options) {
     this.#elem = document.createElement(tag)
-    this.#elem.id = options.id
+    this.#id = options.id
+
+    this.#elem.id = this.#id
     this.setOptions(options)
   }
 
@@ -14,7 +17,7 @@ export default class Element {
   setOptions(options) {
     if (options?.tag) {
       this.#elem = document.createElement(options.tag)
-      this.#elem.id = options.id
+      this.#elem.id = this.#id
     }
     if (options?.classes?.length) this.setClasses(options.classes)
     if (options?.content) this.setContent(options.content)
