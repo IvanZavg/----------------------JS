@@ -1,0 +1,33 @@
+.sidebar {
+  flex-grow: 1;
+  height: 100vh;
+  min-width: 250px;
+  box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.sidebar .active-element {
+  padding: 10px;
+  background-color: rgb(255, 254, 200);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.757);
+}
+
+.sidebar .element-list {
+  margin-top: 10px;
+  padding: 0;
+}
+
+.sidebar .element-list li {
+  list-style-type: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.sidebar .element-list li:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar .element-list li:active {
+  background-color: rgba(0, 0, 0, 0.3);
+}

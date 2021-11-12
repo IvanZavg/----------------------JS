@@ -1,0 +1,19 @@
+.content {
+  flex-grow: 2;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.content * {
+  min-height: 10px;
+  margin: 5px;
+}
+
+.content *:hover {
+  background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.content .active {
+  border: 2px solid lightcoral;
+}

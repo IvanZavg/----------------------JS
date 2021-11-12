@@ -1,0 +1,7 @@
+@import './sidebar.css';
+@import './content.css';
+@import './settings.css';
+
+.app {
+  display: flex;
+}
