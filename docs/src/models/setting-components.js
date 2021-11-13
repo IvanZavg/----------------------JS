@@ -8,10 +8,6 @@ export const SETTINGS_MODEL = {
   textHeader: [
     { option: 'tag', settingBlock: TagHeaderTitle, isClass: false },
     { option: 'text', settingBlock: Text, isClass: false },
-    { option: 'bg', settingBlock: Background, isClass: true },
   ],
-  paragraph: [
-    { option: 'text', settingBlock: Text, isClass: false },
-    { option: 'bg', settingBlock: Background, isClass: true },
-  ],
+  paragraph: [{ option: 'text', settingBlock: Text, isClass: false }],
 }
