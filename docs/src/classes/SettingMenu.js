@@ -24,8 +24,9 @@ export class SetingMenu {
     this.#btnApply.addEventListener('click', this.addNewComponent)
   }
 
-  //Вызываем из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент
   showSettingsNewElement() {
+    /*Отрисовывает доступные опции для выбраного компонента*/
+    /*Вызываеться из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент */
     const elementType = this.#newCompoenent.component.getType()
     this.#renederSettings(elementType)
   }
@@ -54,17 +55,41 @@ export class SetingMenu {
       this.#clearSetingContainer()
       return
     } else {
-      this.#settings.forEach((setting) => {
-        this.#options[setting.getType()] = setting.getValue()
-      })
-      this.#newCompoenent.component.setOptions(this.#options)
+      this.#setOptions()
       this.#addComponent()
       this.#clearSetingContainer()
     }
   }
 
+  #setOptions() {
+    /*1) Функция перебирает все елементы опций что были отрендерены*/
+    /*2) Получает выбраные занчения*/
+    /*3) Добавляет в #options даную опцию и ее значение*/
+    /*4) Если опция в модели SETTINGS_MODEL имеет параметр isClass == true
+         то в #options создается массив classes куда и добавляеться полученное значение  */
+    this.#settings.forEach((setting) => {
+      if (this.#checkOptionIsClass(setting)) {
+        if (!this.#options.classes?.length) {
+          this.#options.classes = []
+        }
+        this.#options.classes.push(...setting.getValue())
+      } else {
+        this.#options[setting.getType()] = setting.getValue()
+      }
+    })
+    //Вызываем setOptions компонента для их применения к омпоненту
+    this.#newCompoenent.component.setOptions(this.#options)
+  }
+
   #clearSetingContainer() {
     this.#setingContainer.textContent = ''
     this.#setingContainer.innerHTML = ''
+  }
+
+  #checkOptionIsClass(setting) {
+    const elementType = this.#newCompoenent.component.getType()
+    const options = SETTINGS_MODEL[elementType]
+    const option = options.find((o) => o.option === setting.getType())
+    return option.isClass
   }
 }

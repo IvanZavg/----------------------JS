@@ -4,10 +4,13 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  min-width: 250px;
+  min-width: 300px;
   box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1);
   overflow: auto;
   box-sizing: border-box;
+}
+.ettings-menu-options input[type='checkbox'] {
+  cursor: pointer;
 }
 
 .settings-menu button {
