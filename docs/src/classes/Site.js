@@ -16,6 +16,7 @@ export default class Site {
     this.createNewComponent = this.createNewComponent.bind(this)
     this.chooseNewactivElement = this.chooseNewactivElement.bind(this)
     this.runData = this.runData.bind(this)
+    this.chooseRootLevel = this.chooseRootLevel.bind(this)
 
     this.Sidebar = new Sidebar({
       listSelector: '.element-list',
@@ -24,18 +25,18 @@ export default class Site {
       fCreateNewComponent: this.createNewComponent,
       activeComponent: this.activeComponent,
     })
-
     this.SetingMenu = new SetingMenu({
       newComp: this.newComponent,
       activeComp: this.activeComponent,
       addComp: this.addComponent,
     })
-    this.HeaderMenu = new HeaderMenu(this.content, this.runData)
+    this.HeaderMenu = new HeaderMenu(this.content, this.runData, this.chooseRootLevel)
   }
 
   runData(content) {
     this.content = content
     this.fillRegistredElements(this.content)
+    this.HeaderMenu.setNewContent(this.content)
     this.renderAll()
   }
 
@@ -105,6 +106,13 @@ export default class Site {
 
     this.app.querySelector('.active')?.classList?.remove('active')
     component.classList.add('active')
+  }
+
+  chooseRootLevel(event) {
+    this.app.querySelector('.active')?.classList?.remove('active')
+    this.activeComponent.id = null
+    this.activeComponent.component = null
+    this.Sidebar.showActivCompInfo()
   }
 
   //testing function
