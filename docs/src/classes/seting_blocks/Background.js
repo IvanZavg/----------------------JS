@@ -5,7 +5,17 @@ export class Background {
   #selectBgColor
   #labelGradient
   #checkboxGradient
-  #colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']
+  #colors = [
+    'none',
+    'primary',
+    'secondary',
+    'success',
+    'danger',
+    'warning',
+    'info',
+    'light',
+    'dark',
+  ]
 
   constructor() {
     this.#optionType = 'bg'
@@ -48,9 +58,16 @@ export class Background {
   #fillSelect() {
     this.#colors.forEach((color) => {
       const option = document.createElement('option')
-      option.value = `bg-${color}`
+
+      if (color === 'none') {
+        option.selected = true
+        option.value = ''
+      } else {
+        option.value = `bg-${color}`
+      }
+
       option.textContent = color
-      if (color === 'light') option.selected = true
+
       this.#selectBgColor.append(option)
     })
   }
@@ -60,7 +77,10 @@ export class Background {
   }
 
   getValue() {
-    const classes = [this.#selectBgColor.value]
+    const bgColor = this.#selectBgColor.value
+    if (!bgColor) return null
+
+    const classes = [bgColor]
     if (this.#checkboxGradient.checked) classes.push('bg-gradient')
     return classes
   }

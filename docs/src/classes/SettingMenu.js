@@ -69,6 +69,7 @@ export class SetingMenu {
          то в #options создается массив classes куда и добавляеться полученное значение  */
     this.#settings.forEach((setting) => {
       if (this.#checkOptionIsClass(setting)) {
+        if (!setting.getValue()) return
         if (!this.#options.classes?.length) {
           this.#options.classes = []
         }

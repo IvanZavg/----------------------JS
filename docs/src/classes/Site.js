@@ -1,6 +1,7 @@
 import { ContentBlock } from './ContentBlock.js'
 import { Sidebar } from './Sidebar.js'
 import { SetingMenu } from './SettingMenu.js'
+import { HeaderMenu } from './HeaderMenu.js'
 import guid from '../utils/guid.js'
 
 export default class Site {
@@ -14,6 +15,7 @@ export default class Site {
     this.addComponent = this.addComponent.bind(this)
     this.createNewComponent = this.createNewComponent.bind(this)
     this.chooseNewactivElement = this.chooseNewactivElement.bind(this)
+    this.runData = this.runData.bind(this)
 
     this.Sidebar = new Sidebar({
       listSelector: '.element-list',
@@ -22,11 +24,13 @@ export default class Site {
       fCreateNewComponent: this.createNewComponent,
       activeComponent: this.activeComponent,
     })
+
     this.SetingMenu = new SetingMenu({
       newComp: this.newComponent,
       activeComp: this.activeComponent,
       addComp: this.addComponent,
     })
+    this.HeaderMenu = new HeaderMenu(this.content, this.runData)
   }
 
   runData(content) {
