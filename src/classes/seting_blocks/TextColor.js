@@ -64,7 +64,6 @@ export class TextColor extends SettingBlock {
     if (!textColor) return null
 
     const classes = [textColor]
-
     return classes
   }
 }

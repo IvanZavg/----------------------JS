@@ -1,4 +1,5 @@
 import Site from './classes/Site.js'
+import './styles/main.css'
 
 const content = [
   { perentId: 'root', id: 'fef6a3ba-86ce-5dd2-64c4-d932de2b0909', componentType: 'row' },
