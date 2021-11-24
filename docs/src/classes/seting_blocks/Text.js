@@ -1,20 +1,17 @@
-export class Text {
-  #optionType
-  #container
+import { SettingBlock } from './SettingBlock.js'
+
+export class Text extends SettingBlock {
   #label
   #textArea
 
   constructor() {
-    this.#optionType = 'text'
-    this.#container = document.createElement('div')
+    super('text')
     this.#label = document.createElement('label')
     this.#textArea = document.createElement('textarea')
     this.#reneder()
   }
 
   #reneder() {
-    this.#container.className = 'mb-3'
-
     this.#label.htmlFor = 'option-text'
     this.#label.className = 'form-label'
     this.#label.textContent = 'Text'
@@ -24,18 +21,10 @@ export class Text {
     this.#textArea.rows = 5
 
     this.#label.append(this.#textArea)
-    this.#container.append(this.#label)
-  }
-
-  getHtml() {
-    return this.#container
+    this.containerAppend(this.#label)
   }
 
   getValue() {
     return this.#textArea.value
-  }
-
-  getType() {
-    return this.#optionType
   }
 }

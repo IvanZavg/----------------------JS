@@ -1,21 +1,18 @@
-export class TagHeaderTitle {
-  #optionType
-  #container
+import { SettingBlock } from './SettingBlock.js'
+
+export class TagHeaderTitle extends SettingBlock {
   #label
   #select
   #tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
   constructor() {
-    this.#optionType = 'tag'
-    this.#container = document.createElement('div')
+    super('tag')
     this.#label = document.createElement('label')
     this.#select = document.createElement('select')
     this.#reneder()
   }
 
   #reneder() {
-    this.#container.className = 'mb-3'
-
     this.#label.htmlFor = 'option-h-tag'
     this.#label.className = 'form-label'
     this.#label.textContent = 'Уровень заголовка'
@@ -26,7 +23,7 @@ export class TagHeaderTitle {
     this.#fillSelect()
 
     this.#label.append(this.#select)
-    this.#container.append(this.#label)
+    this.containerAppend(this.#label)
   }
 
   #fillSelect() {
@@ -39,15 +36,7 @@ export class TagHeaderTitle {
     })
   }
 
-  getHtml() {
-    return this.#container
-  }
-
   getValue() {
     return this.#select.value
-  }
-
-  getType() {
-    return this.#optionType
   }
 }

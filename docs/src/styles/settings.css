@@ -17,3 +17,7 @@
   align-self: flex-end;
   margin: 10px;
 }
+
+.settings-menu .hide {
+  display: none;
+}
