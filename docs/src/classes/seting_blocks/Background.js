@@ -71,6 +71,7 @@ export class Background extends SettingBlock {
   #fillSelect() {
     this.#colors.forEach((color) => {
       const option = document.createElement('option')
+      option.textContent = color
 
       if (color === 'none') {
         option.selected = true
@@ -78,8 +79,6 @@ export class Background extends SettingBlock {
       } else {
         option.value = `bg-${color}`
       }
-
-      option.textContent = color
 
       this.#selectBgColor.append(option)
     })
