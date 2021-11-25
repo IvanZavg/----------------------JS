@@ -28,6 +28,8 @@ export class HeaderMenu {
 
   runUploadContent() {
     const file = this.contentFileData.files[0]
+    if (!file) return alert('Вы не выбрали файл. Нужно сначал выбрать файл для загрузки!')
+
     const reader = new FileReader()
     const runData = this.runData
 
@@ -35,7 +37,7 @@ export class HeaderMenu {
       const result = JSON.parse(reader.result)
       runData(result)
     })
-
     reader.readAsText(file)
+    this.contentFileData.value = ''
   }
 }

@@ -1,6 +1,9 @@
 .content {
   margin: 10px;
+  padding: 2px;
   box-sizing: border-box;
+  max-width: 60vw;
+  overflow-x: auto;
 }
 
 .content * {

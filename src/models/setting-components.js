@@ -2,6 +2,7 @@ import { TagHeaderTitle } from '../classes/seting_blocks/TagHeaderTitle.js'
 import { Text } from '../classes/seting_blocks/Text.js'
 import { Background } from '../classes/seting_blocks/Background.js'
 import { TextColor } from '../classes/seting_blocks/TextColor.js'
+import { ImgSrc } from '../classes/seting_blocks/ImgSrc.js'
 
 export const SETTINGS_MODEL = {
   row: [{ option: 'bg', settingBlock: Background, isClass: true }],
@@ -15,4 +16,5 @@ export const SETTINGS_MODEL = {
     { option: 'text', settingBlock: Text, isClass: false },
     { option: 'textColor', settingBlock: TextColor, isClass: true },
   ],
+  image: [{ option: 'imgSrc', settingBlock: ImgSrc, isClass: false }],
 }

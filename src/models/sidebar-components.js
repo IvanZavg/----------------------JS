@@ -13,7 +13,6 @@ export const COMPONENTS_MODEL = {
       tag: 'div',
       classes: ['container'],
     },
-    availableProps: {},
   },
 
   col: {
@@ -23,7 +22,6 @@ export const COMPONENTS_MODEL = {
     options: {
       tag: 'div',
     },
-    availableProps: {},
   },
 
   textHeader: {
@@ -32,9 +30,6 @@ export const COMPONENTS_MODEL = {
     elementClass: TextHeader,
     options: {
       tag: 'h1',
-    },
-    availableProps: {
-      tags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     },
   },
 
@@ -45,7 +40,6 @@ export const COMPONENTS_MODEL = {
     options: {
       tag: 'p',
     },
-    availableProps: {},
   },
 
   image: {
@@ -55,6 +49,5 @@ export const COMPONENTS_MODEL = {
     options: {
       tag: 'img',
     },
-    availableProps: {},
   },
 }
