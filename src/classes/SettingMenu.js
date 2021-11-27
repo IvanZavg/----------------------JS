@@ -69,19 +69,20 @@ export class SetingMenu {
     /* 3.1 Если опция в модели SETTINGS_MODEL имеет параметр isClass == true
          то в #options создается массив classes куда и добавляеться полученное значение  */
     this.#settings.forEach((setting) => {
-      if (this.#checkOptionIsClass(setting)) {
-        if (!setting.getValue()) return
+      const settingVal = setting.getValue()
 
+      if (this.#checkOptionIsClass(setting)) {
+        if (!settingVal) return
         if (!this.#options.classes?.length) {
           this.#options.classes = []
         }
-
-        this.#options.classes.push(...setting.getValue())
+        this.#options.classes.push(...settingVal)
       } else {
-        this.#options[setting.getType()] = setting.getValue()
+        this.#options[setting.getType()] = settingVal
       }
     })
     //Вызываем setOptions компонента для их применения к омпоненту
+    debugger
     this.#newCompoenent.component.setOptions(this.#options)
   }
 

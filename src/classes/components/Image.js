@@ -5,7 +5,7 @@ export default class Image extends Element {
     super('img', options)
   }
   setOptions(options) {
-    super.setOptions()
+    super.setOptions(options)
     if (options?.imgSrc) this.getElement().src = options.imgSrc
   }
 }
