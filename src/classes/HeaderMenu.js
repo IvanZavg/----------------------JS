@@ -1,6 +1,6 @@
 import { dispatchDownloadData } from '../utils/dispatchDownloadData.js'
 export class HeaderMenu {
-  constructor(content, runData, chooseRootLevel) {
+  constructor(content, runData, chooseRootLevel, deleteComponent) {
     this.downloadJSONBtn = document.querySelector('#download-json-btn')
     this.uploadContentBtn = document.querySelector('#upload-content-btn')
     this.deleteComponentBtn = document.querySelector('#delete-component-btn')
@@ -10,12 +10,14 @@ export class HeaderMenu {
     this.content = content
     this.runData = runData
     this.chooseRootLevel = chooseRootLevel
+    this.deleteComponent = deleteComponent
     this.downloadJSON = this.downloadJSON.bind(this)
     this.runUploadContent = this.runUploadContent.bind(this)
 
     this.downloadJSONBtn.addEventListener('click', this.downloadJSON)
     this.uploadContentBtn.addEventListener('click', this.runUploadContent)
     this.chooseRootBtn.addEventListener('click', this.chooseRootLevel)
+    this.deleteComponentBtn.addEventListener('click', this.deleteComponent)
   }
 
   downloadJSON() {

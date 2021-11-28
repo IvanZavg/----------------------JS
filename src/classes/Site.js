@@ -8,7 +8,7 @@ export default class Site {
   constructor(appSelector) {
     this.app = document.querySelector(appSelector)
     this.activeComponent = { id: null, component: null }
-    this.newComponent = { perentId: null, id: null, component: null }
+    this.newComponent = { parentId: null, id: null, component: null }
     this.content = []
     this.registredElements = {}
 
@@ -17,6 +17,7 @@ export default class Site {
     this.chooseNewactivElement = this.chooseNewactivElement.bind(this)
     this.runData = this.runData.bind(this)
     this.chooseRootLevel = this.chooseRootLevel.bind(this)
+    this.deleteComponent = this.deleteComponent.bind(this)
 
     this.Sidebar = new Sidebar({
       listSelector: '.element-list',
@@ -30,7 +31,12 @@ export default class Site {
       activeComp: this.activeComponent,
       addComp: this.addComponent,
     })
-    this.HeaderMenu = new HeaderMenu(this.content, this.runData, this.chooseRootLevel)
+    this.HeaderMenu = new HeaderMenu(
+      this.content,
+      this.runData,
+      this.chooseRootLevel,
+      this.deleteComponent
+    )
   }
 
   runData(content) {
@@ -42,13 +48,13 @@ export default class Site {
 
   renderAll() {
     this.clearContainer()
-    this.content.forEach(({ perentId, id }) => {
-      this.renderComponent(perentId, id)
+    this.content.forEach(({ parentId, id }) => {
+      this.renderComponent(parentId, id)
     })
   }
 
-  renderComponent(perentId, id) {
-    const container = perentId === 'root' ? this.app : this.registredElements[perentId].getHtml()
+  renderComponent(parentId, id) {
+    const container = parentId === 'root' ? this.app : this.registredElements[parentId].getHtml()
     const htmlElement = this.registredElements[id].getHtml()
     htmlElement.addEventListener('click', this.chooseNewactivElement)
     container.append(htmlElement)
@@ -73,24 +79,24 @@ export default class Site {
 
   createNewComponent(componentType) {
     const id = guid()
-    const perentId = this.activeComponent.id ? this.activeComponent.id : 'root'
+    const parentId = this.activeComponent.id ? this.activeComponent.id : 'root'
 
-    this.newComponent.perentId = perentId
+    this.newComponent.parentId = parentId
     this.newComponent.id = id
-    this.newComponent.component = new ContentBlock({ id, perentId, componentType })
+    this.newComponent.component = new ContentBlock({ id, parentId, componentType })
     this.SetingMenu.showSettingsNewElement()
   }
 
   addComponent() {
-    const perentId = this.newComponent.perentId
+    const parentId = this.newComponent.parentId
     const id = this.newComponent.id
     const componentType = this.newComponent.component.getType()
     const options = this.newComponent.component.getOptions()
 
     this.registredElements[id] = this.newComponent.component
-    this.content.push({ perentId, id, componentType, options })
+    this.content.push({ parentId, id, componentType, options })
 
-    this.renderComponent(perentId, id)
+    this.renderComponent(parentId, id)
   }
 
   setActiveComponent(id) {
@@ -113,6 +119,45 @@ export default class Site {
     this.activeComponent.id = null
     this.activeComponent.component = null
     this.Sidebar.showActivCompInfo()
+  }
+
+  deleteComponent() {
+    const delComponentId = this.activeComponent.id
+    const childrenComponents = this.getAllChildren(delComponentId, this.content)
+
+    if (childrenComponents?.length) {
+      childrenComponents.forEach((child) => {
+        const contIdx = this.content.findIndex((el) => el.id === child.id)
+        delete this.registredElements[child.id]
+        this.content.splice(contIdx, 1)
+      })
+    }
+
+    const delCompContentIdx = this.content.findIndex((el) => el.id === delComponentId)
+    this.registredElements[delComponentId].getHtml().remove()
+    delete this.registredElements[delComponentId]
+    this.content.splice(delCompContentIdx, 1)
+
+    this.activeComponent.id = null
+    this.activeComponent.component = null
+    this.Sidebar.showActivCompInfo()
+  }
+
+  getAllChildren(id, content) {
+    const children = content
+      .filter(({ parentId }) => parentId == id)
+      .map(({ id, parentId }) => ({ id, parentId }))
+
+    if (children.length) {
+      let deepChildrenArray = []
+      children.forEach(({ id }) => {
+        let deperChildrenLevel = this.getAllChildren(id, content)
+        if (deperChildrenLevel?.length) {
+          deepChildrenArray = [...deepChildrenArray, ...deperChildrenLevel]
+        }
+      })
+      return [...deepChildrenArray, ...children]
+    }
   }
 
   //testing function

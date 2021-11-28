@@ -1,11 +1,13 @@
 @import './content-components-styles/size.css';
 
 .content {
-  margin: 10px;
+  margin: 10px 2px;
   padding: 2px;
   box-sizing: border-box;
-  max-width: 60vw;
+  max-width: 70vw;
+  max-height: 80vh;
   overflow-x: auto;
+  overflow-y: auto;
 }
 
 .content * {

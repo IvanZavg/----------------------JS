@@ -82,7 +82,6 @@ export class SetingMenu {
       }
     })
     //Вызываем setOptions компонента для их применения к омпоненту
-    debugger
     this.#newCompoenent.component.setOptions(this.#options)
   }
 

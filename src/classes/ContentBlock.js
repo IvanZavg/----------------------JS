@@ -2,14 +2,14 @@ import { componentFabric } from './ComponentFab.js'
 
 export class ContentBlock {
   #id
-  #perentId
+  #parentId
   #componentType
   #options
   #block
 
-  constructor({ id, perentId, componentType, options }) {
+  constructor({ id, parentId, componentType, options }) {
     this.#id = id
-    this.#perentId = perentId
+    this.#parentId = parentId
     this.#componentType = componentType
     this.#options = options || null
     this.#block = componentFabric.create(componentType, { id: this.#id, ...options })
@@ -36,7 +36,7 @@ export class ContentBlock {
     return this.#id
   }
 
-  getPerentId() {
-    return this.#perentId
+  getParentId() {
+    return this.#parentId
   }
 }
