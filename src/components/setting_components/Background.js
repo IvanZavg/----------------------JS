@@ -1,4 +1,4 @@
-import { SettingBlock } from './SettingBlock.js'
+import { SettingBlock } from './classes/SettingBlock.js'
 
 export class Background extends SettingBlock {
   #previewBlock

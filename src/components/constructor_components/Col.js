@@ -1,6 +1,6 @@
-import Element from './Element.js'
+import ConstructorBlock from './classes/ConstructorBlock.js'
 
-export default class Col extends Element {
+export default class Col extends ConstructorBlock {
   constructor(options) {
     super('div', options)
     this.setColumnType(options)
@@ -8,6 +8,6 @@ export default class Col extends Element {
 
   setColumnType(options) {
     const columnType = options.columnType || 'col'
-    this.getElement().classList.add(columnType)
+    this.getConstructorBlock().classList.add(columnType)
   }
 }

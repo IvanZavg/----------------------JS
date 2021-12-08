@@ -1,4 +1,4 @@
-import { ContentBlock } from './ContentBlock.js'
+import { ConstructorComponent } from './classes/ConstructorComponent.js'
 import { Sidebar } from './Sidebar.js'
 import { SetingMenu } from './SettingMenu.js'
 import { HeaderMenu } from './HeaderMenu.js'
@@ -14,14 +14,14 @@ export default class Site {
 
     this.addComponent = this.addComponent.bind(this)
     this.createNewComponent = this.createNewComponent.bind(this)
-    this.chooseNewactivElement = this.chooseNewactivElement.bind(this)
-    this.runData = this.runData.bind(this)
+    this.chooseNewActivComponent = this.chooseNewActivComponent.bind(this)
+    this.renderDataFromFile = this.renderDataFromFile.bind(this)
     this.chooseRootLevel = this.chooseRootLevel.bind(this)
     this.deleteComponent = this.deleteComponent.bind(this)
 
     this.Sidebar = new Sidebar({
-      listSelector: '.element-list',
-      infoSelector: '.active-element',
+      sidebarSelector: '.element-list',
+      infoBanerSelector: '.active-element',
       fAddComponent: this.addComponent,
       fCreateNewComponent: this.createNewComponent,
       activeComponent: this.activeComponent,
@@ -33,20 +33,20 @@ export default class Site {
     })
     this.HeaderMenu = new HeaderMenu(
       this.content,
-      this.runData,
+      this.renderDataFromFile,
       this.chooseRootLevel,
       this.deleteComponent
     )
   }
 
-  runData(content) {
+  renderDataFromFile(content) {
     this.content = content
     this.fillRegistredElements(this.content)
     this.HeaderMenu.setNewContent(this.content)
-    this.renderAll()
+    this.renderAllContent()
   }
 
-  renderAll() {
+  renderAllContent() {
     this.clearContainer()
     this.content.forEach(({ parentId, id }) => {
       this.renderComponent(parentId, id)
@@ -56,17 +56,17 @@ export default class Site {
   renderComponent(parentId, id) {
     const container = parentId === 'root' ? this.app : this.registredElements[parentId].getHtml()
     const htmlElement = this.registredElements[id].getHtml()
-    htmlElement.addEventListener('click', this.chooseNewactivElement)
+    htmlElement.addEventListener('click', this.chooseNewActivComponent)
     container.append(htmlElement)
   }
 
   fillRegistredElements(data) {
     if (Array.isArray(data)) {
       data.forEach((elData) => {
-        this.registredElements[elData.id] = new ContentBlock(elData)
+        this.registredElements[elData.id] = new ConstructorComponent(elData)
       })
     } else if (typeof data === 'Object') {
-      this.registredElements[data.id] = new ContentBlock(data)
+      this.registredElements[data.id] = new ConstructorComponent(data)
     } else {
       throw new Error('Error data type for fillRegistredElements! data mast be Array or Object')
     }
@@ -83,7 +83,7 @@ export default class Site {
 
     this.newComponent.parentId = parentId
     this.newComponent.id = id
-    this.newComponent.component = new ContentBlock({ id, parentId, componentType })
+    this.newComponent.component = new ConstructorComponent({ id, parentId, componentType })
     this.SetingMenu.showSettingsNewElement()
   }
 
@@ -105,7 +105,7 @@ export default class Site {
     this.Sidebar.showActivCompInfo()
   }
 
-  chooseNewactivElement(event) {
+  chooseNewActivComponent(event) {
     const component = event.target
     const id = component.id
     this.setActiveComponent(id)
@@ -158,14 +158,5 @@ export default class Site {
       })
       return [...deepChildrenArray, ...children]
     }
-  }
-
-  //testing function
-  testSetActiveComponent(idx) {
-    const id = this.content[idx]['id']
-    this.setActiveComponent(id)
-  }
-  testLogContent() {
-    console.log(JSON.stringify(this.content))
   }
 }

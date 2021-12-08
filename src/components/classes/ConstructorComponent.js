@@ -1,18 +1,14 @@
-import { componentFabric } from './ComponentFab.js'
+import FabricConstructorComponents from './FabricConstructorComponents.js'
 
-export class ContentBlock {
-  #id
-  #parentId
+export class ConstructorComponent {
   #componentType
   #options
   #block
 
   constructor({ id, parentId, componentType, options }) {
-    this.#id = id
-    this.#parentId = parentId
     this.#componentType = componentType
     this.#options = options || null
-    this.#block = componentFabric.create(componentType, { id: this.#id, ...options })
+    this.#block = FabricConstructorComponents.create(componentType, { id, parentId, ...options })
   }
 
   setOptions(options) {
@@ -29,14 +25,14 @@ export class ContentBlock {
   }
 
   getHtml() {
-    return this.#block.getElement()
+    return this.#block.getConstructorBlock()
   }
 
   getId() {
-    return this.#id
+    return this.#block.getId()
   }
 
   getParentId() {
-    return this.#parentId
+    return this.#block.getParentId()
   }
 }

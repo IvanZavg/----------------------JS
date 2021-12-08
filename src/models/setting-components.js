@@ -1,11 +1,11 @@
-import { TagHeaderTitle } from '../classes/seting_blocks/TagHeaderTitle.js'
-import { Text } from '../classes/seting_blocks/Text.js'
-import { Background } from '../classes/seting_blocks/Background.js'
-import { TextColor } from '../classes/seting_blocks/TextColor.js'
-import { ImgSrc } from '../classes/seting_blocks/ImgSrc.js'
-import { WidthSize } from '../classes/seting_blocks/WidthSize.js'
-import { HeightSize } from '../classes/seting_blocks/HeightSize.js'
-import { ColumnSizeCounts } from '../classes/seting_blocks/ColumnSizeCounts.js'
+import { TagHeaderTitle } from '../components/setting_components/TagHeaderTitle.js'
+import { Text } from '../components/setting_components/Text.js'
+import { Background } from '../components/setting_components/Background.js'
+import { TextColor } from '../components/setting_components/TextColor.js'
+import { ImgSrc } from '../components/setting_components/ImgSrc.js'
+import { WidthSize } from '../components/setting_components/WidthSize.js'
+import { HeightSize } from '../components/setting_components/HeightSize.js'
+import { ColumnSizeCounts } from '../components/setting_components/ColumnSizeCounts.js'
 
 export const SETTINGS_MODEL = {
   row: [

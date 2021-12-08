@@ -1,16 +1,26 @@
-export default class Element {
+export default class ConstructorBlock {
   #elem
   #id
+  #parentId
 
   constructor(tag, options) {
     this.#elem = document.createElement(tag)
     this.#id = options.id
+    this.#parentId = options.parentId
 
     this.#elem.id = this.#id
     this.setOptions(options)
   }
 
-  getElement() {
+  getParentId() {
+    return this.#parentId
+  }
+
+  getId() {
+    return this.#id
+  }
+
+  getConstructorBlock() {
     return this.#elem
   }
 
@@ -25,14 +35,14 @@ export default class Element {
   }
 
   setClasses(classes) {
-    this.getElement().classList.add(...classes)
+    this.#elem.classList.add(...classes)
   }
 
   setContent(content) {
-    this.getElement().append(content)
+    this.#elem.append(content)
   }
 
   setTextContent(text) {
-    this.getElement().textContent = text
+    this.#elem.textContent = text
   }
 }

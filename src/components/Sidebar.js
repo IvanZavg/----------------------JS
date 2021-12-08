@@ -1,30 +1,30 @@
 import { COMPONENTS_MODEL } from '../models/sidebar-components.js'
 
 export class Sidebar {
-  #container
-  #containerInfoCurrComp
+  #sidebarContainer
+  #infoBanerContainer
   #activeComponent
   #createNewComponent
 
-  constructor({ listSelector, infoSelector, activeComponent, fCreateNewComponent }) {
-    this.#container = document.querySelector(listSelector)
-    this.#containerInfoCurrComp = document.querySelector(infoSelector)
+  constructor({ sidebarSelector, infoBanerSelector, activeComponent, fCreateNewComponent }) {
+    this.#sidebarContainer = document.querySelector(sidebarSelector)
+    this.#infoBanerContainer = document.querySelector(infoBanerSelector)
 
-    this.chooseComponentToAdd = this.chooseComponentToAdd.bind(this)
+    this.chooseNewComponent = this.chooseNewComponent.bind(this)
     this.showActivCompInfo = this.showActivCompInfo.bind(this)
 
     //Сохроняем ссылку на активный компонент в объекте Site
     //Именно о нем выводиться инфо в containerInfoCurrComp и в него будут добовляться новый компоненты
     this.#activeComponent = activeComponent
     //Функция из Site для создания новых компонентов
-    //Данная ф-ция вызываеться из chooseComponentToAdd при выборе компонента в sidebar
+    //Данная ф-ция вызываеться из chooseNewComponent при выборе компонента в sidebar
     this.#createNewComponent = fCreateNewComponent
 
-    this.#render()
+    this.#renderSidebar()
   }
 
   //Отрисовывает sidebar
-  #render() {
+  #renderSidebar() {
     const allComponents = Object.values(COMPONENTS_MODEL)
 
     allComponents.forEach((component) => {
@@ -32,30 +32,30 @@ export class Sidebar {
       li.className = 'component-list-item'
       li.dataset.componentType = component.type
       li.textContent = component.title
-      li.addEventListener('click', this.chooseComponentToAdd)
-      this.#container.append(li)
+      li.addEventListener('click', this.chooseNewComponent)
+      this.#sidebarContainer.append(li)
     })
     this.showActivCompInfo()
   }
 
-  chooseComponentToAdd(event) {
+  chooseNewComponent(event) {
     const el = event.target
     const componentType = el.dataset.componentType
     this.#createNewComponent(componentType)
   }
 
-  //Выводит ивормацию об активном компоненте (в который будут добовляться новые компоненты)
+  //Выводит ивормацию в банере sidebar об активном компоненте (id, type...)
   showActivCompInfo() {
-    const info = this.#prepareActiveCompInfo()
+    const info = this.#getActiveCompInfo()
 
-    if (this.#containerInfoCurrComp?.children?.length) {
-      const oldInfo = this.#containerInfoCurrComp.querySelectorAll('*')
+    if (this.#infoBanerContainer?.children?.length) {
+      const oldInfo = this.#infoBanerContainer.querySelectorAll('*')
       oldInfo.forEach((el) => el.remove())
     }
-    info.forEach((info) => this.#containerInfoCurrComp.append(info))
+    info.forEach((info) => this.#infoBanerContainer.append(info))
   }
 
-  #prepareActiveCompInfo() {
+  #getActiveCompInfo() {
     const info = []
     const component = this.#activeComponent.component
 

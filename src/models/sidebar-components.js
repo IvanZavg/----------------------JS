@@ -1,8 +1,8 @@
-import Row from '../classes/components/Row.js'
-import Col from '../classes/components/Col.js'
-import TextHeader from '../classes/components/TextHeader.js'
-import Paragraph from '../classes/components/Paragraph.js'
-import Image from '../classes/components/Image.js'
+import Row from '../components/constructor_components/Row.js'
+import Col from '../components/constructor_components/Col.js'
+import TextHeader from '../components/constructor_components/TextHeader.js'
+import Paragraph from '../components/constructor_components/Paragraph.js'
+import Image from '../components/constructor_components/Image.js'
 
 export const COMPONENTS_MODEL = {
   row: {
