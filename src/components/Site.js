@@ -22,21 +22,20 @@ export default class Site {
     this.Sidebar = new Sidebar({
       sidebarSelector: '.element-list',
       infoBanerSelector: '.active-element',
-      fAddComponent: this.addComponent,
-      fCreateNewComponent: this.createNewComponent,
+      createNewComponent: this.createNewComponent,
       activeComponent: this.activeComponent,
     })
     this.SetingMenu = new SetingMenu({
-      newComp: this.newComponent,
-      activeComp: this.activeComponent,
-      addComp: this.addComponent,
+      newComponent: this.newComponent,
+      activeComponent: this.activeComponent,
+      addComponent: this.addComponent,
     })
-    this.HeaderMenu = new HeaderMenu(
-      this.content,
-      this.renderDataFromFile,
-      this.chooseRootLevel,
-      this.deleteComponent
-    )
+    this.HeaderMenu = new HeaderMenu({
+      content: this.content,
+      renderDataFromFile: this.renderDataFromFile,
+      chooseRootLevel: this.chooseRootLevel,
+      deleteComponent: this.deleteComponent,
+    })
   }
 
   renderDataFromFile(content) {

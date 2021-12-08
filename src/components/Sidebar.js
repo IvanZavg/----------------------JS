@@ -6,7 +6,7 @@ export class Sidebar {
   #activeComponent
   #createNewComponent
 
-  constructor({ sidebarSelector, infoBanerSelector, activeComponent, fCreateNewComponent }) {
+  constructor({ sidebarSelector, infoBanerSelector, activeComponent, createNewComponent }) {
     this.#sidebarContainer = document.querySelector(sidebarSelector)
     this.#infoBanerContainer = document.querySelector(infoBanerSelector)
 
@@ -18,7 +18,7 @@ export class Sidebar {
     this.#activeComponent = activeComponent
     //Функция из Site для создания новых компонентов
     //Данная ф-ция вызываеться из chooseNewComponent при выборе компонента в sidebar
-    this.#createNewComponent = fCreateNewComponent
+    this.#createNewComponent = createNewComponent
 
     this.#renderSidebar()
   }

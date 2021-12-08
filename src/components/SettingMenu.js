@@ -10,15 +10,15 @@ export class SetingMenu {
   #activeComponent
   #addComponent
 
-  constructor({ newComp, activeComp, addComp }) {
-    this.#newCompoenent = newComp
-    this.#activeComponent = activeComp
-    this.#addComponent = addComp
+  constructor({ newComponent, activeComponent, addComponent }) {
+    this.#newCompoenent = newComponent
+    this.#activeComponent = activeComponent
+    this.#addComponent = addComponent
 
-    this.#initSettingMenu()
+    this.#renderSettingMenu()
   }
 
-  #initSettingMenu() {
+  #renderSettingMenu() {
     this.#options = {}
     this.addNewComponent = this.addNewComponent.bind(this)
 
@@ -34,10 +34,10 @@ export class SetingMenu {
     /*Отрисовывает доступные опции для выбраного компонента*/
     /*Вызываеться из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент */
     const elementType = this.#newCompoenent.component.getType()
-    this.#renederSettings(elementType)
+    this.#renederComponentSettings(elementType)
   }
 
-  #renederSettings(elementType) {
+  #renederComponentSettings(elementType) {
     this.#settings = []
     this.#options = {}
     this.#clearSetingContainer()
