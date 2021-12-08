@@ -3,21 +3,17 @@ import { COMPONENTS_MODEL } from '../models/sidebar-components.js'
 export class Sidebar {
   #sidebarContainer
   #infoBanerContainer
-  #activeComponent
   #createNewComponent
+  #getComponentData
 
-  constructor({ sidebarSelector, infoBanerSelector, activeComponent, createNewComponent }) {
+  constructor({ sidebarSelector, infoBanerSelector, getComponentData, createNewComponent }) {
     this.#sidebarContainer = document.querySelector(sidebarSelector)
     this.#infoBanerContainer = document.querySelector(infoBanerSelector)
 
     this.chooseNewComponent = this.chooseNewComponent.bind(this)
     this.showActivCompInfo = this.showActivCompInfo.bind(this)
 
-    //Сохроняем ссылку на активный компонент в объекте Site
-    //Именно о нем выводиться инфо в containerInfoCurrComp и в него будут добовляться новый компоненты
-    this.#activeComponent = activeComponent
-    //Функция из Site для создания новых компонентов
-    //Данная ф-ция вызываеться из chooseNewComponent при выборе компонента в sidebar
+    this.#getComponentData = getComponentData
     this.#createNewComponent = createNewComponent
 
     this.#renderSidebar()
@@ -44,10 +40,9 @@ export class Sidebar {
     this.#createNewComponent(componentType)
   }
 
-  //Выводит ивормацию в банере sidebar об активном компоненте (id, type...)
   showActivCompInfo() {
-    const info = this.#getActiveCompInfo()
-
+    //Выводит ивормацию в банере sidebar об активном компоненте (id, type...)
+    const info = this.#prepareBanerInformation()
     if (this.#infoBanerContainer?.children?.length) {
       const oldInfo = this.#infoBanerContainer.querySelectorAll('*')
       oldInfo.forEach((el) => el.remove())
@@ -55,21 +50,21 @@ export class Sidebar {
     info.forEach((info) => this.#infoBanerContainer.append(info))
   }
 
-  #getActiveCompInfo() {
+  #prepareBanerInformation() {
+    //Подготавливает информацию для отображения в банере об активном компоненте
     const info = []
-    const component = this.#activeComponent.component
 
-    if (component) {
+    if (this.#getComponentData('active', 'isInit')) {
       const titleInfo = document.createElement('p')
       titleInfo.textContent = 'Активный компонент:'
       info.push(titleInfo)
 
       const idInfo = document.createElement('p')
-      idInfo.textContent = `id: ${component.getId()}`
+      idInfo.textContent = `id: ${this.#getComponentData('active', 'id')}`
       info.push(idInfo)
 
       const typeInfo = document.createElement('p')
-      typeInfo.textContent = `Тип компонента: ${component.getType()}`
+      typeInfo.textContent = `Тип компонента: ${this.#getComponentData('active', 'componentType')}`
       info.push(typeInfo)
     } else {
       const titleInfo = document.createElement('p')

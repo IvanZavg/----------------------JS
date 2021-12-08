@@ -6,24 +6,19 @@ export class SetingMenu {
   #setingContainer
   #btnApply
   #options
-  #newCompoenent
-  #activeComponent
-  #addComponent
+  #getComponentData
+  #setComponentOptions
+  #addNewComponent
 
-  constructor({ newComponent, activeComponent, addComponent }) {
-    this.#newCompoenent = newComponent
-    this.#activeComponent = activeComponent
-    this.#addComponent = addComponent
-
-    this.#renderSettingMenu()
-  }
-
-  #renderSettingMenu() {
+  constructor({ getComponentData, addNewComponent, setComponentOptions }) {
+    this.#getComponentData = getComponentData
+    this.#addNewComponent = addNewComponent
+    this.#setComponentOptions = setComponentOptions
     this.#options = {}
-    this.addNewComponent = this.addNewComponent.bind(this)
-
     this.#setingMenu = document.querySelector('#settings')
     this.#setingContainer = this.#setingMenu.querySelector('.settings-menu-options')
+
+    this.addNewComponent = this.addNewComponent.bind(this)
 
     this.#btnApply = this.#setingMenu.querySelector('.apply-btn')
     this.#btnApply.addEventListener('click', this.addNewComponent)
@@ -33,7 +28,7 @@ export class SetingMenu {
   showSettingsNewElement() {
     /*Отрисовывает доступные опции для выбраного компонента*/
     /*Вызываеться из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент */
-    const elementType = this.#newCompoenent.component.getType()
+    const elementType = this.#getComponentData('new', 'componentType')
     this.#renederComponentSettings(elementType)
   }
 
@@ -58,16 +53,11 @@ export class SetingMenu {
 
   addNewComponent() {
     if (this.#settings.length) this.#setOptions()
-    this.#addComponent()
+    this.#addNewComponent()
     this.#clearSetingContainer()
   }
 
   #setOptions() {
-    /* 1. Функция перебирает все елементы опций что были отрендерены*/
-    /* 2. Получает выбраные занчения*/
-    /* 3. Добавляет в #options даную опцию и ее значение*/
-    /* 3.1 Если опция в модели SETTINGS_MODEL имеет параметр isClass == true
-         то в #options создается массив classes куда и добавляеться полученное значение  */
     this.#settings.forEach((setting) => {
       const settingVal = setting.getValue()
 
@@ -81,8 +71,7 @@ export class SetingMenu {
         this.#options[setting.getType()] = settingVal
       }
     })
-    //Вызываем setOptions компонента для их применения к омпоненту
-    this.#newCompoenent.component.setOptions(this.#options)
+    this.#setComponentOptions('new', this.#options)
   }
 
   #clearSetingContainer() {
@@ -93,7 +82,7 @@ export class SetingMenu {
   }
 
   #checkOptionIsClass(setting) {
-    const elementType = this.#newCompoenent.component.getType()
+    const elementType = this.#getComponentData('new', 'componentType')
     const options = SETTINGS_MODEL[elementType]
     const option = options.find((o) => o.option === setting.getType())
     return option.isClass
