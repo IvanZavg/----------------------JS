@@ -1,4 +1,4 @@
-import { COMPONENTS_MODEL } from '../../models/sidebar-components.js'
+import { COMPONENTS_MODEL } from '../../models/constructor-components.js'
 
 class FabricConstructorComponents {
   create(componentType, options) {

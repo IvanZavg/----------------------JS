@@ -1,4 +1,4 @@
-import { COMPONENTS_MODEL } from '../models/sidebar-components.js'
+import { COMPONENTS_MODEL } from '../models/constructor-components.js'
 
 export class Sidebar {
   #sidebarContainer
@@ -6,9 +6,9 @@ export class Sidebar {
   #createNewComponent
   #getComponentData
 
-  constructor({ sidebarSelector, infoBanerSelector, getComponentData, createNewComponent }) {
-    this.#sidebarContainer = document.querySelector(sidebarSelector)
-    this.#infoBanerContainer = document.querySelector(infoBanerSelector)
+  constructor({ getComponentData, createNewComponent }) {
+    this.#sidebarContainer = document.querySelector('.element-list')
+    this.#infoBanerContainer = document.querySelector('.active-element')
 
     this.chooseNewComponent = this.chooseNewComponent.bind(this)
     this.showActivCompInfo = this.showActivCompInfo.bind(this)

@@ -5,27 +5,31 @@ import { HeaderMenu } from './HeaderMenu.js'
 import guid from '../utils/guid.js'
 
 export default class Site {
-  #activeComponent
+  #app
+  #componentStore
+  #content
   #newComponent
+  #activeComponent
+
   constructor(appSelector) {
-    this.app = document.querySelector(appSelector)
+    this.#app = document.querySelector(appSelector)
     this.#activeComponent = null
     this.#newComponent = null
-    this.content = []
-    this.registredElements = {}
+    this.#content = []
+    this.#componentStore = {}
 
-    this.addNewComponent = this.addNewComponent.bind(this)
-    this.createNewComponent = this.createNewComponent.bind(this)
-    this.chooseNewActivComponent = this.chooseNewActivComponent.bind(this)
+    this.getContent = this.getContent.bind(this)
+    this.setContent = this.setContent.bind(this)
     this.renderDataFromFile = this.renderDataFromFile.bind(this)
-    this.chooseRootLevel = this.chooseRootLevel.bind(this)
-    this.deleteComponent = this.deleteComponent.bind(this)
+    this.createNewComponent = this.createNewComponent.bind(this)
+    this.addNewComponent = this.addNewComponent.bind(this)
+    this.chooseNewActivComponent = this.chooseNewActivComponent.bind(this)
     this.getComponentData = this.getComponentData.bind(this)
     this.setComponentOptions = this.setComponentOptions.bind(this)
+    this.deleteComponent = this.deleteComponent.bind(this)
+    this.chooseRootLevel = this.chooseRootLevel.bind(this)
 
     this.Sidebar = new Sidebar({
-      sidebarSelector: '.element-list',
-      infoBanerSelector: '.active-element',
       createNewComponent: this.createNewComponent,
       getComponentData: this.getComponentData,
     })
@@ -35,7 +39,8 @@ export default class Site {
       setComponentOptions: this.setComponentOptions,
     })
     this.HeaderMenu = new HeaderMenu({
-      content: this.content,
+      getContent: this.getContent,
+      setContent: this.setContent,
       renderDataFromFile: this.renderDataFromFile,
       chooseRootLevel: this.chooseRootLevel,
       deleteComponent: this.deleteComponent,
@@ -44,66 +49,69 @@ export default class Site {
 
   //Render Methods -------------------------------------------
   renderDataFromFile(content) {
-    this.content = content
-    this.fillRegistredElements(this.content)
-    this.HeaderMenu.setNewContent(this.content)
-    this.renderAllContent()
+    this.setContent(content)
+    this.#fillComponentStoreFromContent()
+    this.#renderAllContent()
   }
 
-  renderAllContent() {
-    this.clearContainer()
-    this.content.forEach(({ parentId, id }) => {
-      this.renderComponent(parentId, id)
+  #renderAllContent() {
+    this.#clearContainer()
+    this.#content.forEach(({ parentId, id }) => {
+      this.#renderComponent(parentId, id)
     })
   }
 
-  renderComponent(parentId, id) {
-    const container = parentId === 'root' ? this.app : this.registredElements[parentId].getHtml()
-    const htmlElement = this.registredElements[id].getHtml()
+  #renderComponent(parentId, id) {
+    const container = parentId === 'root' ? this.#app : this.#componentStore[parentId].getHtml()
+    const htmlElement = this.#componentStore[id].getHtml()
     htmlElement.addEventListener('click', this.chooseNewActivComponent)
     container.append(htmlElement)
   }
   //----------------------------------------------------------------------
 
   //Content/Structure control Methods-------------------------------------------------
-  fillRegistredElements(data) {
-    if (Array.isArray(data)) {
-      data.forEach((elData) => {
-        this.registredElements[elData.id] = new ConstructorComponent(elData)
+  getContent() {
+    return this.#content
+  }
+
+  setContent(content) {
+    this.#content = content
+  }
+
+  #fillComponentStoreFromContent() {
+    if (this.#content.length) {
+      this.#content.forEach((contentBlock) => {
+        this.#componentStore[contentBlock.id] = new ConstructorComponent(contentBlock)
       })
-    } else if (typeof data === 'Object') {
-      this.registredElements[data.id] = new ConstructorComponent(data)
-    } else {
-      throw new Error('Error data type for fillRegistredElements! data mast be Array or Object')
     }
   }
 
-  clearContainer() {
-    const childrens = this.app.querySelectorAll('*')
+  #clearContainer() {
+    const childrens = this.#app.querySelectorAll('*')
     childrens.forEach((el) => el.remove())
   }
 
   deleteComponent() {
     const delComponentId = this.#activeComponent.getId()
-    const childrenComponents = this.getAllChildren(delComponentId, this.content)
+    const childrenComponents = this.#getAllChildren(delComponentId, this.#content)
 
     if (childrenComponents?.length) {
       childrenComponents.forEach((child) => {
-        const contIdx = this.content.findIndex((el) => el.id === child.id)
-        delete this.registredElements[child.id]
-        this.content.splice(contIdx, 1)
+        const contIdx = this.#content.findIndex((el) => el.id === child.id)
+        delete this.#componentStore[child.id]
+        this.#content.splice(contIdx, 1)
       })
     }
 
-    const delCompContentIdx = this.content.findIndex((el) => el.id === delComponentId)
-    this.registredElements[delComponentId].getHtml().remove()
-    delete this.registredElements[delComponentId]
-    this.content.splice(delCompContentIdx, 1)
+    const delCompContentIdx = this.#content.findIndex((el) => el.id === delComponentId)
+    this.#componentStore[delComponentId].getHtml().remove()
+    delete this.#componentStore[delComponentId]
+    this.#content.splice(delCompContentIdx, 1)
 
     this.chooseRootLevel()
   }
 
-  getAllChildren(id, content) {
+  #getAllChildren(id, content) {
     const children = content
       .filter(({ parentId }) => parentId == id)
       .map(({ id, parentId }) => ({ id, parentId }))
@@ -111,7 +119,7 @@ export default class Site {
     if (children.length) {
       let deepChildrenArray = []
       children.forEach(({ id }) => {
-        let deperChildrenLevel = this.getAllChildren(id, content)
+        let deperChildrenLevel = this.#getAllChildren(id, content)
         if (deperChildrenLevel?.length) {
           deepChildrenArray = [...deepChildrenArray, ...deperChildrenLevel]
         }
@@ -136,30 +144,30 @@ export default class Site {
     const componentType = this.#newComponent.getType()
     const options = this.#newComponent.getOptions()
 
-    this.registredElements[id] = this.#newComponent
-    this.content.push({ parentId, id, componentType, options })
+    this.#componentStore[id] = this.#newComponent
+    this.#content.push({ parentId, id, componentType, options })
 
-    this.renderComponent(parentId, id)
+    this.#renderComponent(parentId, id)
   }
 
   //Activw Component Methods
-  setActiveComponent(id) {
-    this.#activeComponent = this.registredElements[id]
+  #setActiveComponent(id) {
+    this.#activeComponent = this.#componentStore[id]
     this.Sidebar.showActivCompInfo()
   }
 
   chooseNewActivComponent(event) {
     const component = event.target
     const id = component.id
-    this.setActiveComponent(id)
+    this.#setActiveComponent(id)
 
-    this.app.querySelector('.active')?.classList?.remove('active')
+    this.#app.querySelector('.active')?.classList?.remove('active')
     component.classList.add('active')
   }
 
   //Common Component Methods
   chooseRootLevel() {
-    this.app.querySelector('.active')?.classList?.remove('active')
+    this.#app.querySelector('.active')?.classList?.remove('active')
     this.#activeComponent = null
     this.Sidebar.showActivCompInfo()
   }
