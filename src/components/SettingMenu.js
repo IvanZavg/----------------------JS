@@ -9,6 +9,7 @@ export class SetingMenu {
   #getComponentData
   #setComponentOptions
   #addNewComponent
+  #kindOfComponent
 
   constructor({ getComponentData, addNewComponent, setComponentOptions }) {
     this.#getComponentData = getComponentData
@@ -16,74 +17,117 @@ export class SetingMenu {
     this.#setComponentOptions = setComponentOptions
     this.#options = {}
     this.#setingMenu = document.querySelector('#settings')
-    this.#setingContainer = this.#setingMenu.querySelector('.settings-menu-options')
+    this.#setingContainer = this.#setingMenu.querySelector(
+      '.settings-menu-options'
+    )
 
     this.addNewComponent = this.addNewComponent.bind(this)
+    this.changeActiveComponent = this.changeActiveComponent.bind(this)
 
     this.#btnApply = this.#setingMenu.querySelector('.apply-btn')
-    this.#btnApply.addEventListener('click', this.addNewComponent)
     this.#hideButtonAply()
   }
 
-  showSettingsNewElement() {
-    /*Отрисовывает доступные опции для выбраного компонента*/
-    /*Вызываеться из site в ф-ции createNewComponent когда в sidebar выбираеться новый компонент */
-    const elementType = this.#getComponentData('new', 'componentType')
-    this.#renederComponentSettings(elementType)
+  showSettingsActiveComponent() {
+    this.#kindOfComponent = 'active'
+    const componentType = this.#getComponentData(
+      this.#kindOfComponent,
+      'componentType'
+    )
+    const componentOptions = this.#getComponentData(
+      this.#kindOfComponent,
+      'options'
+    )
+    this.#renederComponentSettings(componentType, componentOptions)
+    this.#btnApply.addEventListener('click', this.changeActiveComponent)
   }
 
-  #renederComponentSettings(elementType) {
-    this.#settings = []
-    this.#options = {}
-    this.#clearSetingContainer()
-    this.#showButtonAply()
+  showSettingsNewComponent() {
+    this.#kindOfComponent = 'new'
+    const componentType = this.#getComponentData(
+      this.#kindOfComponent,
+      'componentType'
+    )
+    this.#renederComponentSettings(componentType)
+    this.#btnApply.addEventListener('click', this.addNewComponent)
+  }
 
-    const availableOptions = SETTINGS_MODEL[elementType]
+  #renederComponentSettings(componentType, options = {}) {
+    this.#clearSetingContainer()
+    this.#options = options
+
+    const availableOptions = SETTINGS_MODEL[componentType]
     if (!availableOptions) {
-      this.#setingContainer.textContent = 'Для данного компонента нет дополнительных опций'
+      this.#setingContainer.textContent =
+        'Для данного компонента нет дополнительных опций'
       return
     }
 
     availableOptions.forEach((option) => {
-      const settingBlock = new option.settingBlock()
+      const prevOptionValue = this.#getOptionValue(option.option)
+      const settingBlock = new option.settingBlock(prevOptionValue)
       this.#settings.push(settingBlock)
       this.#setingContainer.append(settingBlock.getHtml())
     })
+    this.#showButtonAply()
   }
 
   addNewComponent() {
     if (this.#settings.length) this.#setOptions()
     this.#addNewComponent()
     this.#clearSetingContainer()
+    this.#btnApply.removeEventListener('click', this.addNewComponent)
   }
 
+  changeActiveComponent() {
+    this.#clearPrevComponentClasses()
+    if (this.#settings.length) this.#setOptions()
+    this.#clearSetingContainer()
+    this.#btnApply.removeEventListener('click', this.changeActiveComponent)
+  }
+  #clearPrevComponentClasses() {
+    const component = this.#getComponentData('active', 'html')
+    if (this.#options.classes) {
+      this.#options.classes.forEach((clssName) => {
+        component.classList.remove(clssName)
+      })
+      this.#options.classes = []
+    }
+  }
   #setOptions() {
     this.#settings.forEach((setting) => {
       const settingVal = setting.getValue()
 
       if (this.#checkOptionIsClass(setting)) {
         if (!settingVal) return
-        if (!this.#options.classes?.length) {
+        if (!this.#options.classes) {
           this.#options.classes = []
         }
         this.#options.classes.push(...settingVal)
-      } else {
-        this.#options[setting.getType()] = settingVal
       }
+      this.#options[setting.getType()] = settingVal
     })
-    this.#setComponentOptions('new', this.#options)
+    this.#setComponentOptions(this.#kindOfComponent, this.#options)
   }
 
   #clearSetingContainer() {
+    this.#options = {}
     this.#setingContainer.textContent = ''
     this.#setingContainer.innerHTML = ''
     this.#settings = []
     this.#hideButtonAply()
   }
 
+  #getOptionValue(optionType) {
+    return this.#options[optionType] ? this.#options[optionType] : null
+  }
+
   #checkOptionIsClass(setting) {
-    const elementType = this.#getComponentData('new', 'componentType')
-    const options = SETTINGS_MODEL[elementType]
+    const componentType = this.#getComponentData(
+      this.#kindOfComponent,
+      'componentType'
+    )
+    const options = SETTINGS_MODEL[componentType]
     const option = options.find((o) => o.option === setting.getType())
     return option.isClass
   }

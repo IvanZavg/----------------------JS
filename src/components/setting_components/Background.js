@@ -15,10 +15,10 @@ export class Background extends SettingBlock {
     'warning',
     'info',
     'light',
-    'dark',
+    'dark'
   ]
 
-  constructor() {
+  constructor(values = null) {
     super('bg')
 
     this.#previewBlock = document.createElement('div')
@@ -31,6 +31,7 @@ export class Background extends SettingBlock {
 
     this.changePreviewColor = this.changePreviewColor.bind(this)
     this.#reneder()
+    if (values) this.setValue(values)
   }
 
   #reneder() {
@@ -64,7 +65,8 @@ export class Background extends SettingBlock {
   }
 
   changePreviewColor() {
-    const selectedOption = this.#selectBgColor[this.#selectBgColor.selectedIndex]
+    const selectedOption =
+      this.#selectBgColor[this.#selectBgColor.selectedIndex]
     this.#previewBlock.className = selectedOption.value
   }
 
@@ -82,6 +84,18 @@ export class Background extends SettingBlock {
 
       this.#selectBgColor.append(option)
     })
+  }
+
+  setValue(values) {
+    const bgValue = values[0]
+    const isGradient = values.length === 2
+    const options = this.#selectBgColor.querySelectorAll('option')
+    options.forEach((option) => {
+      if (option.selected === true) option.selected = false
+      if (option.value === bgValue) option.selected = true
+    })
+    this.#checkboxGradient.checked = isGradient
+    this.changePreviewColor()
   }
 
   getValue() {

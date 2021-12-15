@@ -5,13 +5,13 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './docs'),
-    filename: 'main_bundle.js',
+    filename: 'main_bundle.js'
   },
   devServer: {
     static: path.resolve(__dirname, './docs'),
     open: true,
     compress: true,
-    port: 8080,
+    port: 8080
   },
   module: {
     rules: [
@@ -21,28 +21,28 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env', { targets: 'defaults' }]],
-          },
-        },
+            presets: [['@babel/preset-env', { targets: 'defaults' }]]
+          }
+        }
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource'
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-        type: 'asset/inline',
-      },
-    ],
+        type: 'asset/inline'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'learn webpack',
-      template: './index.html',
-    }),
-  ],
+      template: './index.html'
+    })
+  ]
 }

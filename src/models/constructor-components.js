@@ -11,8 +11,8 @@ export const COMPONENTS_MODEL = {
     elementClass: Row,
     options: {
       tag: 'div',
-      classes: ['container'],
-    },
+      classes: ['container']
+    }
   },
 
   col: {
@@ -20,8 +20,8 @@ export const COMPONENTS_MODEL = {
     title: 'Блок колонка',
     elementClass: Col,
     options: {
-      tag: 'div',
-    },
+      tag: 'div'
+    }
   },
 
   textHeader: {
@@ -29,8 +29,8 @@ export const COMPONENTS_MODEL = {
     title: 'Заголовок',
     elementClass: TextHeader,
     options: {
-      tag: 'h1',
-    },
+      tag: 'h1'
+    }
   },
 
   paragraph: {
@@ -38,8 +38,8 @@ export const COMPONENTS_MODEL = {
     title: 'Параграф',
     elementClass: Paragraph,
     options: {
-      tag: 'p',
-    },
+      tag: 'p'
+    }
   },
 
   image: {
@@ -47,7 +47,7 @@ export const COMPONENTS_MODEL = {
     title: 'Картинка',
     elementClass: Image,
     options: {
-      tag: 'img',
-    },
-  },
+      tag: 'img'
+    }
+  }
 }

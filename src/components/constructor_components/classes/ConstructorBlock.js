@@ -26,8 +26,11 @@ export default class ConstructorBlock {
 
   setOptions(options) {
     if (options?.tag) {
-      this.#elem = document.createElement(options.tag)
-      this.#elem.id = this.#id
+      if (!this.#elem.parentNode) {
+        const newNode = document.createElement(options.tag)
+        newNode.id = this.#id
+        this.#elem = newNode
+      }
     }
     if (options?.classes?.length) this.setClasses(options.classes)
     if (options?.content) this.setContent(options.content)

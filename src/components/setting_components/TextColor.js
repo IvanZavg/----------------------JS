@@ -12,16 +12,17 @@ export class TextColor extends SettingBlock {
     'dark',
     'body',
     'muted',
-    'black-50',
+    'black-50'
   ]
   #lightColors = ['warning', 'info', 'light', 'white', 'white-50']
 
-  constructor() {
+  constructor(values) {
     super('textColor')
     this.#labelTextColor = document.createElement('label')
     this.#selectTextColor = document.createElement('select')
 
     this.#reneder()
+    if (values) this.setValue(values)
   }
 
   #reneder() {
@@ -40,7 +41,8 @@ export class TextColor extends SettingBlock {
   }
 
   #fillSelect(colorType) {
-    const textColors = colorType === 'darkTextColors' ? this.#darkColors : this.#lightColors
+    const textColors =
+      colorType === 'darkTextColors' ? this.#darkColors : this.#lightColors
 
     textColors.forEach((color) => {
       const option = document.createElement('option')
@@ -56,6 +58,15 @@ export class TextColor extends SettingBlock {
       if (colorType === 'lightTextColors') option.classList.add('bg-dark')
       option.classList.add(`text-${color}`)
       this.#selectTextColor.append(option)
+    })
+  }
+
+  setValue(values) {
+    const textColor = values[0]
+    const options = this.#selectTextColor.querySelectorAll('option')
+    options.forEach((option) => {
+      if (option.selected === true) option.selected = false
+      if (option.value === textColor) option.selected = true
     })
   }
 

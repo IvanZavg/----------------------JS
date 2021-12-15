@@ -28,15 +28,16 @@ export default class Site {
     this.setComponentOptions = this.setComponentOptions.bind(this)
     this.deleteComponent = this.deleteComponent.bind(this)
     this.chooseRootLevel = this.chooseRootLevel.bind(this)
+    this.changeActiveComponent = this.changeActiveComponent.bind(this)
 
     this.Sidebar = new Sidebar({
       createNewComponent: this.createNewComponent,
-      getComponentData: this.getComponentData,
+      getComponentData: this.getComponentData
     })
     this.SetingMenu = new SetingMenu({
       getComponentData: this.getComponentData,
       addNewComponent: this.addNewComponent,
-      setComponentOptions: this.setComponentOptions,
+      setComponentOptions: this.setComponentOptions
     })
     this.HeaderMenu = new HeaderMenu({
       getContent: this.getContent,
@@ -44,6 +45,7 @@ export default class Site {
       renderDataFromFile: this.renderDataFromFile,
       chooseRootLevel: this.chooseRootLevel,
       deleteComponent: this.deleteComponent,
+      changeActiveComponent: this.changeActiveComponent
     })
   }
 
@@ -62,7 +64,8 @@ export default class Site {
   }
 
   #renderComponent(parentId, id) {
-    const container = parentId === 'root' ? this.#app : this.#componentStore[parentId].getHtml()
+    const container =
+      parentId === 'root' ? this.#app : this.#componentStore[parentId].getHtml()
     const htmlElement = this.#componentStore[id].getHtml()
     htmlElement.addEventListener('click', this.chooseNewActivComponent)
     container.append(htmlElement)
@@ -81,7 +84,9 @@ export default class Site {
   #fillComponentStoreFromContent() {
     if (this.#content.length) {
       this.#content.forEach((contentBlock) => {
-        this.#componentStore[contentBlock.id] = new ConstructorComponent(contentBlock)
+        this.#componentStore[contentBlock.id] = new ConstructorComponent(
+          contentBlock
+        )
       })
     }
   }
@@ -93,7 +98,10 @@ export default class Site {
 
   deleteComponent() {
     const delComponentId = this.#activeComponent.getId()
-    const childrenComponents = this.#getAllChildren(delComponentId, this.#content)
+    const childrenComponents = this.#getAllChildren(
+      delComponentId,
+      this.#content
+    )
 
     if (childrenComponents?.length) {
       childrenComponents.forEach((child) => {
@@ -103,7 +111,9 @@ export default class Site {
       })
     }
 
-    const delCompContentIdx = this.#content.findIndex((el) => el.id === delComponentId)
+    const delCompContentIdx = this.#content.findIndex(
+      (el) => el.id === delComponentId
+    )
     this.#componentStore[delComponentId].getHtml().remove()
     delete this.#componentStore[delComponentId]
     this.#content.splice(delCompContentIdx, 1)
@@ -133,9 +143,14 @@ export default class Site {
   //New Component Methods
   createNewComponent(componentType) {
     const id = guid()
-    const parentId = this.#activeComponent === null ? 'root' : this.#activeComponent.getId()
-    this.#newComponent = new ConstructorComponent({ id, parentId, componentType })
-    this.SetingMenu.showSettingsNewElement()
+    const parentId =
+      this.#activeComponent === null ? 'root' : this.#activeComponent.getId()
+    this.#newComponent = new ConstructorComponent({
+      id,
+      parentId,
+      componentType
+    })
+    this.SetingMenu.showSettingsNewComponent()
   }
 
   addNewComponent() {
@@ -163,6 +178,12 @@ export default class Site {
 
     this.#app.querySelector('.active')?.classList?.remove('active')
     component.classList.add('active')
+  }
+
+  changeActiveComponent() {
+    if (!this.#activeComponent) return alert('Вы не выбрали компонент!')
+    const options = this.#activeComponent.getOptions()
+    this.SetingMenu.showSettingsActiveComponent()
   }
 
   //Common Component Methods
@@ -195,6 +216,8 @@ export default class Site {
 
     if (dataType === 'isInit') {
       return component === null ? false : true
+    } else if (dataType === 'options') {
+      return component.getOptions()
     } else if (dataType === 'id') {
       return component.getId()
     } else if (dataType === 'parentId') {

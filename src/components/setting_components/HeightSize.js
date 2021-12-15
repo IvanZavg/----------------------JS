@@ -21,14 +21,15 @@ export class HeightSize extends SettingBlock {
     '600',
     '650',
     '700',
-    '750',
+    '750'
   ]
 
-  constructor() {
+  constructor(values = null) {
     super('heightSize')
     this.#labelHeight = document.createElement('label')
     this.#selectHeight = document.createElement('select')
     this.#reneder()
+    if (values) this.setValue(values)
   }
 
   #reneder() {
@@ -57,6 +58,15 @@ export class HeightSize extends SettingBlock {
       }
       option.textContent = opt
       this.#selectHeight.append(option)
+    })
+  }
+
+  setValue(values) {
+    const hightSize = values[0]
+    const options = this.#selectHeight.querySelectorAll('option')
+    options.forEach((option) => {
+      if (option.selected === true) option.selected = false
+      if (option.value === hightSize) option.selected = true
     })
   }
 

@@ -64,7 +64,10 @@ export class Sidebar {
       info.push(idInfo)
 
       const typeInfo = document.createElement('p')
-      typeInfo.textContent = `Тип компонента: ${this.#getComponentData('active', 'componentType')}`
+      typeInfo.textContent = `Тип компонента: ${this.#getComponentData(
+        'active',
+        'componentType'
+      )}`
       info.push(typeInfo)
     } else {
       const titleInfo = document.createElement('p')

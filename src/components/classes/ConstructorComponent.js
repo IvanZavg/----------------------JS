@@ -8,7 +8,11 @@ export class ConstructorComponent {
   constructor({ id, parentId, componentType, options }) {
     this.#componentType = componentType
     this.#options = options || null
-    this.#block = FabricConstructorComponents.create(componentType, { id, parentId, ...options })
+    this.#block = FabricConstructorComponents.create(componentType, {
+      id,
+      parentId,
+      ...options
+    })
   }
 
   setOptions(options) {

@@ -4,12 +4,13 @@ export class ImgSrc extends SettingBlock {
   #inputChooseImg
   #imgSrc
 
-  constructor() {
+  constructor(value) {
     super('imgSrc')
     this.#inputChooseImg = document.createElement('input')
     this.loadImgFile = this.loadImgFile.bind(this)
     this.getImgSrc = this.getImgSrc.bind(this)
     this.#reneder()
+    if (value) this.setValue(value)
   }
 
   #reneder() {
@@ -29,6 +30,10 @@ export class ImgSrc extends SettingBlock {
   getImgSrc(event) {
     const data = event.target.result
     this.#imgSrc = data
+  }
+
+  setValue(value) {
+    this.#imgSrc = value
   }
 
   getValue() {

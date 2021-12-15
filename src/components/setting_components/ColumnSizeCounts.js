@@ -4,13 +4,29 @@ export class ColumnSizeCounts extends SettingBlock {
   #labelColSizeCnt
   #selectColSizeCnt
 
-  #columns = ['stretch', 'auto', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+  #columns = [
+    'stretch',
+    'auto',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12'
+  ]
 
-  constructor() {
+  constructor(values = null) {
     super('colSizeCnt')
     this.#labelColSizeCnt = document.createElement('label')
     this.#selectColSizeCnt = document.createElement('select')
     this.#reneder()
+    if (values) this.setValue(values)
   }
 
   #reneder() {
@@ -39,6 +55,15 @@ export class ColumnSizeCounts extends SettingBlock {
       }
       option.textContent = opt
       this.#selectColSizeCnt.append(option)
+    })
+  }
+
+  setValue(values) {
+    const colSizeCnt = values[0]
+    const options = this.#selectColSizeCnt.querySelectorAll('option')
+    options.forEach((option) => {
+      if (option.selected === true) option.selected = false
+      if (option.value === colSizeCnt) option.selected = true
     })
   }
 

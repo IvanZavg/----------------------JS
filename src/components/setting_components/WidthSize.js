@@ -20,14 +20,15 @@ export class WidthSize extends SettingBlock {
     '600',
     '650',
     '700',
-    '750',
+    '750'
   ]
 
-  constructor() {
+  constructor(values = null) {
     super('widthSize')
     this.#labelWidth = document.createElement('label')
     this.#selectWidth = document.createElement('select')
     this.#reneder()
+    if (values) this.setValue(values)
   }
 
   #reneder() {
@@ -55,6 +56,15 @@ export class WidthSize extends SettingBlock {
       }
       option.textContent = opt
       this.#selectWidth.append(option)
+    })
+  }
+
+  setValue(values) {
+    const widthSize = values[0]
+    const options = this.#selectWidth.querySelectorAll('option')
+    options.forEach((option) => {
+      if (option.selected === true) option.selected = false
+      if (option.value === widthSize) option.selected = true
     })
   }
 

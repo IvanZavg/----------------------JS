@@ -4,11 +4,12 @@ export class Text extends SettingBlock {
   #label
   #textArea
 
-  constructor() {
+  constructor(value) {
     super('text')
     this.#label = document.createElement('label')
     this.#textArea = document.createElement('textarea')
     this.#reneder()
+    if (value) this.setValue(value)
   }
 
   #reneder() {
@@ -22,6 +23,10 @@ export class Text extends SettingBlock {
 
     this.#label.append(this.#textArea)
     this.containerAppend(this.#label)
+  }
+
+  setValue(value) {
+    this.#textArea.value = value
   }
 
   getValue() {

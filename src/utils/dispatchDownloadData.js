@@ -19,7 +19,7 @@ export function dispatchDownloadData(data, type = 'txt', name = 'file') {
     new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
+      view: window
     })
   )
 
