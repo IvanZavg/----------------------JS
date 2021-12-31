@@ -3,6 +3,7 @@ import Col from '../components/constructor_components/Col.js'
 import TextHeader from '../components/constructor_components/TextHeader.js'
 import Paragraph from '../components/constructor_components/Paragraph.js'
 import Image from '../components/constructor_components/Image.js'
+import Button from '../components/constructor_components/Button.js'
 
 export const COMPONENTS_MODEL = {
   row: {
@@ -11,7 +12,7 @@ export const COMPONENTS_MODEL = {
     elementClass: Row,
     options: {
       tag: 'div',
-      classes: ['container']
+      classes: ['row', 'container']
     }
   },
 
@@ -20,7 +21,8 @@ export const COMPONENTS_MODEL = {
     title: 'Блок колонка',
     elementClass: Col,
     options: {
-      tag: 'div'
+      tag: 'div',
+      classes: ['col']
     }
   },
 
@@ -48,6 +50,15 @@ export const COMPONENTS_MODEL = {
     elementClass: Image,
     options: {
       tag: 'img'
+    }
+  },
+  button: {
+    type: 'button',
+    title: 'Кнопка',
+    elementClass: Button,
+    options: {
+      tag: 'button',
+      classes: ['btn']
     }
   }
 }

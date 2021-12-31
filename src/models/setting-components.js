@@ -6,6 +6,7 @@ import { ImgSrc } from '../components/setting_components/ImgSrc.js'
 import { WidthSize } from '../components/setting_components/WidthSize.js'
 import { HeightSize } from '../components/setting_components/HeightSize.js'
 import { ColumnSizeCounts } from '../components/setting_components/ColumnSizeCounts.js'
+import { ButtonStyle } from '../components/setting_components/ButtonStyle.js'
 
 export const SETTINGS_MODEL = {
   row: [
@@ -31,5 +32,10 @@ export const SETTINGS_MODEL = {
     { option: 'imgSrc', settingBlock: ImgSrc, isClass: false },
     { option: 'widthSize', settingBlock: WidthSize, isClass: true },
     { option: 'heightSize', settingBlock: HeightSize, isClass: true }
+  ],
+  button: [
+    { option: 'text', settingBlock: Text, isClass: false },
+    { option: 'textColor', settingBlock: TextColor, isClass: true },
+    { option: 'button-style', settingBlock: ButtonStyle, isClass: true }
   ]
 }
