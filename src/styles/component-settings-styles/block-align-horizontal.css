@@ -1,0 +1,11 @@
+.to-left {
+  margin-right: auto !important;
+}
+
+.to-right {
+  margin-left: auto !important;
+}
+
+.to-center-h {
+  margin: 0 auto !important;
+}

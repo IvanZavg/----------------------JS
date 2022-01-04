@@ -1,0 +1,11 @@
+.to-top {
+  align-self: flex-start;
+}
+
+.to-bottom {
+  align-self: flex-end;
+}
+
+.to-center-v {
+  align-self: center;
+}

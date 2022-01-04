@@ -1,4 +1,6 @@
-@import './content-components-styles/size.css';
+@import './component-settings-styles/size.css';
+@import './component-settings-styles/block-align-horizontal.css';
+@import './component-settings-styles/block-align-vertical.css';
 
 .content {
   margin: 10px 2px;

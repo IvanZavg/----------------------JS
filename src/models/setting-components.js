@@ -7,6 +7,8 @@ import { WidthSize } from '../components/setting_components/WidthSize.js'
 import { HeightSize } from '../components/setting_components/HeightSize.js'
 import { ColumnSizeCounts } from '../components/setting_components/ColumnSizeCounts.js'
 import { ButtonStyle } from '../components/setting_components/ButtonStyle.js'
+import { VerticalColAlign } from '../components/setting_components/VerticalColAlign.js'
+import { HorizontalColAlign } from '../components/setting_components/HorizontalColAlign.js'
 
 export const SETTINGS_MODEL = {
   row: [
@@ -16,7 +18,17 @@ export const SETTINGS_MODEL = {
   col: [
     { option: 'bg', settingBlock: Background, isClass: true },
     { option: 'colSizeCnt', settingBlock: ColumnSizeCounts, isClass: true },
-    { option: 'heightSize', settingBlock: HeightSize, isClass: true }
+    { option: 'heightSize', settingBlock: HeightSize, isClass: true },
+    {
+      option: 'verticalColAlign',
+      settingBlock: VerticalColAlign,
+      isClass: true
+    },
+    {
+      option: 'horizontalColAlign',
+      settingBlock: HorizontalColAlign,
+      isClass: true
+    }
   ],
 
   textHeader: [
