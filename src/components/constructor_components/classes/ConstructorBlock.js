@@ -35,6 +35,7 @@ export default class ConstructorBlock {
     if (options?.classes?.length) this.setClasses(options.classes)
     if (options?.content) this.setContent(options.content)
     if (options?.text) this.setTextContent(options.text)
+    if (options?.inputType) this.#elem.type = options.inputType
   }
 
   setClasses(classes) {

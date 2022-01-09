@@ -30,7 +30,6 @@ export const SETTINGS_MODEL = {
       isClass: true
     }
   ],
-
   textHeader: [
     { option: 'tag', settingBlock: TagHeaderTitle, isClass: false },
     { option: 'text', settingBlock: Text, isClass: false },
@@ -49,5 +48,19 @@ export const SETTINGS_MODEL = {
     { option: 'text', settingBlock: Text, isClass: false },
     { option: 'textColor', settingBlock: TextColor, isClass: true },
     { option: 'button-style', settingBlock: ButtonStyle, isClass: true }
+  ],
+  inputText: [
+    { option: 'widthSize', settingBlock: WidthSize, isClass: true },
+    { option: 'heightSize', settingBlock: HeightSize, isClass: true },
+    {
+      option: 'verticalColAlign',
+      settingBlock: VerticalColAlign,
+      isClass: true
+    },
+    {
+      option: 'horizontalColAlign',
+      settingBlock: HorizontalColAlign,
+      isClass: true
+    }
   ]
 }

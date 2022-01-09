@@ -4,6 +4,7 @@ import TextHeader from '../components/constructor_components/TextHeader.js'
 import Paragraph from '../components/constructor_components/Paragraph.js'
 import Image from '../components/constructor_components/Image.js'
 import Button from '../components/constructor_components/Button.js'
+import InputText from '../components/constructor_components/Input.js'
 
 export const COMPONENTS_MODEL = {
   row: {
@@ -59,6 +60,15 @@ export const COMPONENTS_MODEL = {
     options: {
       tag: 'button',
       classes: ['btn']
+    }
+  },
+  inputText: {
+    type: 'inputText',
+    title: 'Поле ввода',
+    elementClass: InputText,
+    options: {
+      inputType: 'text',
+      classes: ['form-control']
     }
   }
 }
